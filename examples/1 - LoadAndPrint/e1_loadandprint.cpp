@@ -46,9 +46,9 @@ int main(int argc, char* argv[])
 			for (int j = 0; j < curMesh.Vertices.size(); j++)
 			{
 				file << "V" << j << ": " <<
-					"P(" << curMesh.Vertices[j].Position.X << ", " << curMesh.Vertices[j].Position.Y << ", " << curMesh.Vertices[j].Position.Z << ") " <<
-					"N(" << curMesh.Vertices[j].Normal.X << ", " << curMesh.Vertices[j].Normal.Y << ", " << curMesh.Vertices[j].Normal.Z << ") " <<
-					"TC(" << curMesh.Vertices[j].TextureCoordinate.X << ", " << curMesh.Vertices[j].TextureCoordinate.Y << ")\n";
+					"P(" << curMesh.Vertices[j].Position.x << ", " << curMesh.Vertices[j].Position.y << ", " << curMesh.Vertices[j].Position.z << ") " <<
+					"N(" << curMesh.Vertices[j].Normal.x << ", " << curMesh.Vertices[j].Normal.y << ", " << curMesh.Vertices[j].Normal.z << ") " <<
+					"TC(" << curMesh.Vertices[j].TextureCoordinate.x << ", " << curMesh.Vertices[j].TextureCoordinate.y << ")\n";
 			}
 
 			// Print Indices
@@ -63,9 +63,9 @@ int main(int argc, char* argv[])
 
 			// Print Material
 			file << "Material: " << curMesh.MeshMaterial.name << "\n";
-			file << "Ambient Color: " << curMesh.MeshMaterial.Ka.X << ", " << curMesh.MeshMaterial.Ka.Y << ", " << curMesh.MeshMaterial.Ka.Z << "\n";
-			file << "Diffuse Color: " << curMesh.MeshMaterial.Kd.X << ", " << curMesh.MeshMaterial.Kd.Y << ", " << curMesh.MeshMaterial.Kd.Z << "\n";
-			file << "Specular Color: " << curMesh.MeshMaterial.Ks.X << ", " << curMesh.MeshMaterial.Ks.Y << ", " << curMesh.MeshMaterial.Ks.Z << "\n";
+			file << "Ambient Color: " << curMesh.MeshMaterial.Ka.x << ", " << curMesh.MeshMaterial.Ka.y << ", " << curMesh.MeshMaterial.Ka.z << "\n";
+			file << "Diffuse Color: " << curMesh.MeshMaterial.Kd.x << ", " << curMesh.MeshMaterial.Kd.y << ", " << curMesh.MeshMaterial.Kd.z << "\n";
+			file << "Specular Color: " << curMesh.MeshMaterial.Ks.x << ", " << curMesh.MeshMaterial.Ks.y << ", " << curMesh.MeshMaterial.Ks.z << "\n";
 			file << "Specular Exponent: " << curMesh.MeshMaterial.Ns << "\n";
 			file << "Optical Density: " << curMesh.MeshMaterial.Ni << "\n";
 			file << "Dissolve: " << curMesh.MeshMaterial.d << "\n";
