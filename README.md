@@ -1,3 +1,6 @@
+This is a fork of Bly7's OBJ-Loader that calculates tangent vectors for every model for use by tangent space normal maps. (I also subbed out the agnostic math types with glm because it's what I'm used to.)
+
+
 # OBJ LOADER
 
 The quick to use single header OBJ loader
