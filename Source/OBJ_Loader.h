@@ -42,6 +42,8 @@ namespace objl
 
 		// Texture Coordinate Vector
 		glm::vec2 TextureCoordinate;
+
+		glm::vec4 tangent;
 	};
 
 	struct Material
@@ -343,6 +345,7 @@ namespace objl
 			std::vector<glm::vec3> Positions;
 			std::vector<glm::vec2> TCoords;
 			std::vector<glm::vec3> Normals;
+			std::vector<glm::vec4> Tangents;
 
 			std::vector<Vertex> Vertices;
 			std::vector<unsigned int> Indices;
@@ -597,6 +600,56 @@ namespace objl
 					}
 				}
 			}
+
+			// generate tangent vectors:
+			size_t vertexCount = Vertices.size();
+			glm::vec3 *tangent = new glm::vec3[vertexCount * 2];
+			glm::vec3 *bitangent = tangent + vertexCount;
+			for(int i = 0; i < vertexCount; i++){
+				tangent[i] = glm::vec3(0.0f);
+				bitangent[i] = glm::vec3(0.0f);
+			}
+
+			size_t triangleCount = Indices.size() / 3;
+			for(int k = 0; k < triangleCount; k++){
+				int i0 = Indices[k * 3 + 0];
+				int i1 = Indices[k * 3 + 1];
+				int i2 = Indices[k * 3 + 2];
+				const glm::vec3& p0 = Vertices[i0].Position;
+				const glm::vec3& p1 = Vertices[i1].Position;
+				const glm::vec3& p2 = Vertices[i2].Position;
+				const glm::vec2& w0 = Vertices[i0].TextureCoordinate;
+				const glm::vec2& w1 = Vertices[i1].TextureCoordinate;
+				const glm::vec2& w2 = Vertices[i2].TextureCoordinate;
+
+				glm::vec3 e1 = p1 - p0, e2 = p2 - p0;
+				float  x1 = w1.x - w0.x, x2 = w2.x - w0.x;
+				float  y1 = w1.y - w0.y, y2 = w2.y - w0.y;
+
+				float r = 1.0f / (x1 * y2 - x2 * y1);
+				glm::vec3 t = (e1 * y2 - e2 * y1) * r;
+				glm::vec3 b = (e2 * x1 - e1 * x2) * r;
+
+				tangent[i0] += t;
+				tangent[i1] += t;
+				tangent[i2] += t;
+				bitangent[i0] += b;
+				bitangent[i1] += b;
+				bitangent[i2] += b;
+			}
+
+			for(int i = 0; i < vertexCount; i++){
+				const glm::vec3& t = tangent[i];
+				const glm::vec3& b = bitangent[i];
+				const glm::vec3& n = Vertices[i].Normal;
+
+				glm::vec3 tangentXYZ = glm::normalize(t - (n * glm::dot(n, t)));
+				
+				float w = (glm::dot(glm::cross(t, b), n) > 0.0f) ? 1.0f : -1.0f;
+				Vertices[i].tangent = glm::vec4(tangentXYZ.x, tangentXYZ.z, tangentXYZ.z, w);
+			}
+
+			delete[] tangent;
 
 			if (LoadedMeshes.empty() && LoadedVertices.empty() && LoadedIndices.empty())
 			{
