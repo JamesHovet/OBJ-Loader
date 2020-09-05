@@ -48,7 +48,8 @@ int main(int argc, char* argv[])
 				file << "V" << j << ": " <<
 					"P(" << curMesh.Vertices[j].Position.x << ", " << curMesh.Vertices[j].Position.y << ", " << curMesh.Vertices[j].Position.z << ") " <<
 					"N(" << curMesh.Vertices[j].Normal.x << ", " << curMesh.Vertices[j].Normal.y << ", " << curMesh.Vertices[j].Normal.z << ") " <<
-					"TC(" << curMesh.Vertices[j].TextureCoordinate.x << ", " << curMesh.Vertices[j].TextureCoordinate.y << ")\n";
+					"TC(" << curMesh.Vertices[j].TextureCoordinate.x << ", " << curMesh.Vertices[j].TextureCoordinate.y << ") " << 
+					"Tangent(" << curMesh.Vertices[j].tangent.x << ", " << curMesh.Vertices[j].tangent.y << ", " << curMesh.Vertices[j].tangent.z << ")\n";
 			}
 
 			// Print Indices
@@ -60,6 +61,10 @@ int main(int argc, char* argv[])
 			{
 				file << "T" << j / 3 << ": " << curMesh.Indices[j] << ", " << curMesh.Indices[j + 1] << ", " << curMesh.Indices[j + 2] << "\n";
 			}
+
+			file << "Bounding Box:\n";
+			file << "Min: " << curMesh.bboxMin.x << ", " << curMesh.bboxMin.y << ", " << curMesh.bboxMin.z << "\n";
+			file << "Max: " << curMesh.bboxMax.x << ", " << curMesh.bboxMax.y << ", " << curMesh.bboxMax.z << "\n";
 
 			// Print Material
 			file << "Material: " << curMesh.MeshMaterial.name << "\n";
